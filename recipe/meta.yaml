@@ -7,21 +7,22 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/jschema_to_python-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/jschema_to_python-{{ version }}.tar.gz
   sha256: 76ff14fe5d304708ccad1284e4b11f96a658949a31ee7faed9e0995279549b91
 
 build:
-  number: 0
+  number: 1
   noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python >=3.6
+    - python {{ python_min }}
+    - setuptools
     - pbr
     - pip
   run:
-    - python >=3.6
+    - python >={{ python_min }}
     - attrs
     - jsonpickle
     - pbr
@@ -33,6 +34,7 @@ test:
     - pip check
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://github.com/microsoft/jschema-to-python
